@@ -42,7 +42,7 @@
             width: 100%;
             border-collapse: collapse;
             background: #ffffff;
-            min-width: 750px;
+            min-width: 820px;
         }
 
         th, td {
@@ -50,12 +50,13 @@
             padding: 14px 18px;
             border-bottom: 1px solid var(--border-color);
             font-size: 0.93rem;
+            vertical-align: middle;
         }
 
         th {
             background: #f8fafc;
             color: var(--text-muted);
-            font-weight: 600;
+            font-weight: 700;
             text-transform: uppercase;
             font-size: 0.78rem;
             letter-spacing: 0.5px;
@@ -68,26 +69,56 @@
         .status-badge {
             display: inline-flex;
             align-items: center;
-            gap: 5px;
-            padding: 5px 10px;
+            gap: 6px;
+            padding: 5px 12px;
             border-radius: 20px;
             font-size: 0.82rem;
             font-weight: 700;
         }
 
         .status-not-entered {
-            background: #fef3c7;
-            color: #92400e;
+            background: #f1f5f9;
+            color: #64748b;
         }
 
         .status-inside {
             background: #dcfce7;
-            color: #166534;
+            color: #15803d;
         }
 
         .status-exited {
-            background: #f1f5f9;
-            color: #475569;
+            background: #e0f2fe;
+            color: #0369a1;
+        }
+
+        .badge-cod {
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.78rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .badge-pending {
+            background: #fffbeb;
+            color: #b45309;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.78rem;
+        }
+
+        .badge-paid {
+            background: #ecfdf5;
+            color: #047857;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.78rem;
         }
 
         .btn-action {
@@ -95,17 +126,18 @@
             padding: 7px 14px;
             border-radius: 6px;
             font-size: 0.85rem;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            transition: background 0.2s;
+            transition: all 0.2s;
         }
 
         .btn-entry {
             background: #dcfce7;
-            color: #166534;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
         }
 
         .btn-entry:hover {
@@ -114,7 +146,8 @@
 
         .btn-exit {
             background: #fee2e2;
-            color: #991b1b;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
         }
 
         .btn-exit:hover {
@@ -140,6 +173,7 @@
 
     <nav>
         <ul class="app-nav">
+            <li><a href="index.html"><i class="fa-solid fa-house"></i> <span>Home</span></a></li>
             <li><a href="dashboard.jsp"><i class="fa-solid fa-gauge"></i> <span>Dashboard</span></a></li>
             <li><a href="vehicles"><i class="fa-solid fa-car"></i> <span>Vehicles</span></a></li>
             <li><a href="parking-slots"><i class="fa-solid fa-square-parking"></i> <span>Slots</span></a></li>
@@ -164,13 +198,13 @@
 
     <div class="page-title-box">
         <h1><i class="fa-solid fa-video" style="color: var(--primary);"></i> Vehicle Movement Monitoring</h1>
-        <p>Record real-time gate entry and exit for all active parking allocations.</p>
+        <p>Record real-time gate entry and exit for active parking allocations with Cash on Delivery status tracking.</p>
     </div>
 
     <!-- Notifications -->
     <% if ("entry".equals(message)) { %>
         <div class="app-alert app-alert-success">
-            <i class="fa-solid fa-circle-check"></i> Vehicle entry recorded successfully!
+            <i class="fa-solid fa-circle-check"></i> Vehicle gate entry recorded successfully! Cash on Delivery fee collected at barrier.
         </div>
     <% } else if ("exit".equals(message)) { %>
         <div class="app-alert app-alert-success">
@@ -196,9 +230,11 @@
                         <th>Vehicle</th>
                         <th>Slot</th>
                         <th>Floor</th>
+                        <th>Payment Mode</th>
+                        <th>Fee Due</th>
                         <th>Entry Timestamp</th>
                         <th>Exit Timestamp</th>
-                        <th>Monitoring Status</th>
+                        <th>Gate Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -206,7 +242,7 @@
                 <tbody>
                 <% if (records.isEmpty()) { %>
                     <tr>
-                        <td colspan="7" class="empty-row">
+                        <td colspan="9" class="empty-row">
                             <i class="fa-solid fa-video" style="font-size: 2rem; color: #cbd5e1; display:block; margin-bottom: 8px;"></i>
                             No active vehicle allocations found for monitoring. <a href="allocations" style="color: var(--primary); font-weight:700;">Book a slot</a> first.
                         </td>
@@ -215,11 +251,26 @@
                     for (Map<String, Object> r : records) {
                         String status = r.get("status") == null ? "NOT_ENTERED" : String.valueOf(r.get("status"));
                         String allocStatus = String.valueOf(r.get("allocationStatus"));
+                        String payStatus = r.get("paymentStatus") != null ? String.valueOf(r.get("paymentStatus")) : "PENDING";
+                        boolean isPending = payStatus.toUpperCase().contains("PENDING");
                 %>
                     <tr>
                         <td><strong><%= StringEscapeUtils.escapeHtml4(String.valueOf(r.get("vehicle"))) %></strong> (<%= StringEscapeUtils.escapeHtml4(String.valueOf(r.get("vehicleType"))) %>)</td>
                         <td><strong style="color: var(--primary);"><%= StringEscapeUtils.escapeHtml4(String.valueOf(r.get("slot"))) %></strong></td>
                         <td><%= StringEscapeUtils.escapeHtml4(String.valueOf(r.get("floor"))) %></td>
+                        <td>
+                            <span class="badge-cod">
+                                <i class="fa-solid fa-money-bill-wave"></i> <%= r.get("paymentMethod") != null ? r.get("paymentMethod") : "COD" %>
+                            </span>
+                        </td>
+                        <td>
+                            <strong>₹<%= String.format("%.2f", r.get("amount") != null ? (Double) r.get("amount") : 100.0) %></strong><br>
+                            <% if (isPending) { %>
+                                <span class="badge-pending" style="font-size: 0.72rem;"><i class="fa-solid fa-clock"></i> <%= payStatus %></span>
+                            <% } else { %>
+                                <span class="badge-paid" style="font-size: 0.72rem;"><i class="fa-solid fa-circle-check"></i> Paid</span>
+                            <% } %>
+                        </td>
                         <td><%= r.get("entryTime") == null ? "-" : dateFormat.format(r.get("entryTime")) %></td>
                         <td><%= r.get("exitTime") == null ? "-" : dateFormat.format(r.get("exitTime")) %></td>
                         <td>
@@ -237,8 +288,8 @@
                                     <form method="post" action="<%= request.getContextPath() %>/monitoring" style="margin:0;">
                                         <input type="hidden" name="action" value="entry">
                                         <input type="hidden" name="allocationId" value="<%= r.get("allocationId") %>">
-                                        <button type="submit" class="btn-action btn-entry">
-                                            <i class="fa-solid fa-door-open"></i> Record Entry
+                                        <button type="submit" class="btn-action btn-entry" title="Record vehicle entering through gate and collect COD">
+                                            <i class="fa-solid fa-door-open"></i> Record Entry (Pay COD)
                                         </button>
                                     </form>
                                 <% } else if ("INSIDE".equals(status)) { %>

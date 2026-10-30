@@ -1,9 +1,47 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Sign in to PARKWISE</title><link rel="stylesheet" href="auth.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></head><body class="auth-page">
-<main class="auth-card"><a class="brand" href="index.html">PARKWISE</a><h1>Welcome back</h1><p class="muted">Sign in to continue to your parking dashboard.</p>
-<% if ("1".equals(request.getParameter("registered"))) { %><div class="alert success"><i class="fa-solid fa-circle-check"></i> Account created successfully! You can now sign in.</div><% } %>
-<% if ("1".equals(request.getParameter("logged_out"))) { %><div class="alert success"><i class="fa-solid fa-circle-check"></i> You have been successfully signed out.</div><% } %>
-<% if ("expired".equals(request.getParameter("session"))) { %><div class="alert error"><i class="fa-solid fa-circle-exclamation"></i> Session expired. Please sign in again.</div><% } %>
-<% if (request.getAttribute("error") != null) { %><div class="alert error"><i class="fa-solid fa-triangle-exclamation"></i> <%= org.apache.commons.text.StringEscapeUtils.escapeHtml4(String.valueOf(request.getAttribute("error"))) %></div><% } %>
-<form method="post" action="login" autocomplete="on"><label for="email">Email address</label><input id="email" name="email" type="email" required maxlength="190" autocomplete="email"><label for="password">Password</label><input id="password" name="password" type="password" required maxlength="72" autocomplete="current-password"><button type="submit">Sign in</button></form>
-<p class="switch">New to PARKWISE? <a href="register.jsp">Create an account</a></p><a class="home" href="index.html">← Back to home</a></main></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sign in to PARKWISE</title>
+    <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="auth-page">
+<main class="auth-card">
+    <a class="brand" href="index.html">
+        <i class="fa-solid fa-square-parking"></i> PARKWISE
+    </a>
+    <h1>Welcome back</h1>
+    <p class="muted">Sign in to continue to your parking dashboard.</p>
+
+    <% if ("1".equals(request.getParameter("registered"))) { %>
+        <div class="alert success"><i class="fa-solid fa-circle-check"></i> Account created successfully! You can now sign in.</div>
+    <% } %>
+    <% if ("1".equals(request.getParameter("logged_out"))) { %>
+        <div class="alert success"><i class="fa-solid fa-circle-check"></i> You have been successfully signed out.</div>
+    <% } %>
+    <% if ("expired".equals(request.getParameter("session"))) { %>
+        <div class="alert error"><i class="fa-solid fa-circle-exclamation"></i> Session expired. Please sign in again.</div>
+    <% } %>
+    <% if ("admin_required".equals(request.getParameter("error"))) { %>
+        <div class="alert error"><i class="fa-solid fa-triangle-exclamation"></i> Administrator credentials are required to access the admin console.</div>
+    <% } %>
+    <% if (request.getAttribute("error") != null) { %>
+        <div class="alert error"><i class="fa-solid fa-triangle-exclamation"></i> <%= org.apache.commons.text.StringEscapeUtils.escapeHtml4(String.valueOf(request.getAttribute("error"))) %></div>
+    <% } %>
+
+    <form method="post" action="login" autocomplete="on">
+        <label for="email">Email address</label>
+        <input id="email" name="email" type="email" required maxlength="190" autocomplete="email" placeholder="e.g. admin@parkwise.com or user@example.com">
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" required maxlength="72" autocomplete="current-password" placeholder="Enter your password">
+        <button type="submit">Sign in</button>
+    </form>
+
+    <p class="switch">New to PARKWISE? <a href="register.jsp">Create an account</a></p>
+    <a class="home" href="index.html">&larr; Back to home</a>
+</main>
+</body>
+</html>

@@ -129,6 +129,7 @@
 
     <nav>
         <ul class="app-nav">
+            <li><a href="index.html"><i class="fa-solid fa-house"></i> <span>Home</span></a></li>
             <li><a href="dashboard.jsp" class="active"><i class="fa-solid fa-gauge"></i> <span>Dashboard</span></a></li>
             <li><a href="vehicles"><i class="fa-solid fa-car"></i> <span>Vehicles</span></a></li>
             <li><a href="parking-slots"><i class="fa-solid fa-square-parking"></i> <span>Slots</span></a></li>

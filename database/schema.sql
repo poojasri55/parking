@@ -38,12 +38,15 @@ CREATE TABLE IF NOT EXISTS parking_slots (
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
--- 4. Allocations Table (Slot Bookings)
+-- 4. Allocations Table (Slot Bookings with COD Payment)
 CREATE TABLE IF NOT EXISTS allocations (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
   user_id BIGINT NOT NULL,
   vehicle_id BIGINT NOT NULL,
   slot_id BIGINT NOT NULL,
+  payment_method VARCHAR(30) NOT NULL DEFAULT 'COD',
+  amount DECIMAL(10,2) NOT NULL DEFAULT 100.00,
+  payment_status VARCHAR(40) NOT NULL DEFAULT 'PENDING (Pay at Gate)',
   status ENUM('ACTIVE','RELEASED') NOT NULL DEFAULT 'ACTIVE',
   allocated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   released_at TIMESTAMP NULL DEFAULT NULL,
@@ -61,6 +64,11 @@ CREATE TABLE IF NOT EXISTS monitoring_records (
   status ENUM('NOT_ENTERED','INSIDE','EXITED') NOT NULL DEFAULT 'NOT_ENTERED',
   CONSTRAINT fk_monitoring_allocation FOREIGN KEY (allocation_id) REFERENCES allocations(id) ON DELETE CASCADE
 );
+
+-- Seed System Administrator (Email: admin@parkwise.com | Password: Admin@123)
+-- BCrypt Hash: $2a$12$27iN4uD4oP1V6c3x3k6Gheo15h2B5oV7FpG0/iEaR8P1l/kM8vT9m (or auto-generated via DBConnection)
+INSERT IGNORE INTO users (full_name, email, phone, password_hash, role) VALUES
+('System Administrator', 'admin@parkwise.com', '+1-800-PARKWISE', '$2a$12$R9h/cIPz0gi.URNNX3kh2OPST9/PgBkqquzi.Ss7KIUgO2t0jWMUW', 'ADMIN');
 
 -- Seed Initial Parking Slots (if empty)
 INSERT IGNORE INTO parking_slots (slot_number, floor_name, vehicle_type, status) VALUES
