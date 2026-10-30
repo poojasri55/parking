@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Parking Allocation and Monitoring System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="nav-left">
+            <div class="nav-logo">
+                <img src="logo.jpg" alt="Parking Logo">
+            </div>
+            <div class="nav-location">
+                <i class="fa-solid fa-location-dot"></i>
+                <div class="location-text">
+                    <span class="loc-line1">Navigate to</span>
+                    <span class="loc-line2">Select Location</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-fill">
+            <div class="search-box">
+                <select class="search-select">
+                    <option>All Categories</option>
+                    <option>2-Wheeler Parking</option>
+                    <option>4-Wheeler Parking</option>
+                    <option>Monthly Pass</option>
+                    <option>EV Charging</option>
+                </select>
+                <input type="text" class="search-input" placeholder="Search for parking zones, slot IDs, or areas...">
+                <button class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+        </div>
+
+        <div class="nav-right">
+            <div class="nav-account">
+                <span class="acc-line1">Hello, sign in</span>
+                <span class="acc-line2">Account & Bookings <i class="fa-solid fa-caret-down"></i></span>
+            </div>
+            <div class="nav-returns">
+                <span class="ret-line1">Recent</span>
+                <span class="ret-line2">Bookings</span>
+            </div>
+            <div class="nav-cart">
+                <i class="fa-solid fa-car"></i>
+                <span class="cart-text">My Vehicles</span>
+            </div>
+        </div>
+    </header>
+
+    <nav class="sub-navbar">
+        <ul>
+            <li><i class="fa-solid fa-bars"></i> All</li>
+            <li>Available Slots</li>
+            <li>Premium Parking</li>
+            <li>Monthly Subscriptions</li>
+            <li>EV Charging Zones</li>
+            <li>Customer Service</li>
+            <li>Find Your Vehicle</li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <div class="hero-section">
+            <div class="hero-banner"></div>
+        </div>
+
+        <div class="cards-container">
+            <div class="card">
+                <h3>Book a Parking Slot</h3>
+                <div class="card-img-placeholder">
+                    <img src="card_slot.jpg" alt="Book a Parking Slot" class="card-img">
+                </div>
+                <a href="allocations">Book & manage slots</a>
+            </div>
+            <div class="card">
+                <h3>Manage Your Vehicles</h3>
+                <div class="card-img-placeholder">
+                    <img src="card_vehicles.jpg" alt="Manage Your Vehicles" class="card-img">
+                </div>
+                <a href="vehicles">Add or remove vehicles</a>
+            </div>
+            <div class="card">
+                <h3>Available Parking Slots</h3>
+                <div class="card-img-placeholder">
+                    <img src="card_availability.jpg" alt="Available Parking Slots" class="card-img">
+                </div>
+                <a href="parking-slots">View slot availability</a>
+            </div>
+            <div class="card">
+                <h3>Track Real-time Status</h3>
+                <div class="card-img-placeholder">
+                    <img src="card_monitoring.jpg" alt="Track Real-time Status" class="card-img">
+                </div>
+                <a href="monitoring">View monitoring dashboard</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="back-to-top">Back to top</div>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Get to Know Us</h4>
+                <ul>
+                    <li>About Us</li>
+                    <li>Careers</li>
+                    <li>Press Releases</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Connect with Us</h4>
+                <ul>
+                    <li>Facebook</li>
+                    <li>Twitter</li>
+                    <li>Instagram</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Parking Solutions</h4>
+                <ul>
+                    <li>Smart Allocation</li>
+                    <li>IoT Monitoring</li>
+                    <li>AI Prediction</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Form Modal -->
+    <div id="loginModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-btn" id="closeModalBtn">&times;</span>
+            <h2>Sign In / Register</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="userName">Name</label>
+                    <input type="text" id="userName" name="userName" required>
+                </div>
+                <div class="form-group">
+                    <label for="userEmail">Email</label>
+                    <input type="email" id="userEmail" name="userEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="userPhone">Phone Number</label>
+                    <input type="tel" id="userPhone" name="userPhone" required>
+                </div>
+                <button type="submit" class="submit-btn">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
